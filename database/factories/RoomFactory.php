@@ -18,9 +18,10 @@ class RoomFactory extends Factory
      */
     public function definition(): array
     {
+        static $roomNumber = 101;
+
         return [
-            'room_id'=> $this->faker->unique()->numerify(str_repeat('#', 4)),
-            'room_number' => $this->faker->unique()->numberBetween(100, 999), // เลขห้อง 3 หลัก
+            'room_number' => str_pad($roomNumber++, 3, '0', STR_PAD_LEFT), // เลขห้อง 3 หลัก
             'status' => $this->faker->randomElement(['available', 'booked', 'maintenance']),
             'type_id' => \App\Models\RoomType::inRandomOrder()->first()->type_id, // ใช้ประเภทห้องแบบสุ่ม
         ];

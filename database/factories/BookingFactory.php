@@ -21,7 +21,6 @@ class BookingFactory extends Factory
     public function definition(): array
     {
         return [
-            'booking_id'=> $this->faker->unique()->numerify(str_repeat('#', 9)),
             'customer_id' => Customer::inRandomOrder()->first()->customer_id, // ใช้ customer_id แบบสุ่ม
             'room_id' => Room::inRandomOrder()->first()->room_id, // ใช้ room_id แบบสุ่ม
             'booked_at'=> $this->faker->dateTimeBetween('-1 week', '+1 week'), 

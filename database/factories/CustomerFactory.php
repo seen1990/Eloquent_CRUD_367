@@ -19,12 +19,11 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'customer_id'=> $this->faker->unique()->numerify(str_repeat('#', 5)),
             'first_name' => $this->faker->firstName(), 
             'last_name' => $this->faker->lastName(),   
             'gender' => $this->faker->randomElement(['Male', 'Female', 'Other']), 
             'email' => $this->faker->unique()->safeEmail(), 
-            'phone' => $this->faker->phoneNumber(), 
+            'phone' => $this->faker->numerify('##########'),
             'address' => $this->faker->address(),
         ];
     }

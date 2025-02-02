@@ -22,6 +22,9 @@ class FacultySeeder extends Seeder
             'Nursing',
             'Pharmacy',
             'Law',
+            'Humanities',
+            'Dentistry',
+            'Veterinary Medicine'
         ];
 
         foreach ($faculties as $faculty) {

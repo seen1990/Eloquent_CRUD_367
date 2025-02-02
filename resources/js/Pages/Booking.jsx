@@ -4,7 +4,7 @@ import { Inertia } from "@inertiajs/inertia";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Index({ bookings }) {
-    const headers = ["Booking ID", 'Room', 'Booking Date', 'Booking Status', "Customer Name",  "Customer Phone", 'Customer Email']; 
+    const headers = ["Booking ID", 'Room', 'Booking Date', 'Booking Status', 'Customer ID', "Customer Name",  "Customer Phone"]; 
 
     return (
         
@@ -34,9 +34,10 @@ export default function Index({ bookings }) {
                             <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.room.room_number}</td>
                             <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{dayjs(booking.booked_at).format("YYYY-MM-DD")}</td>
                             <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.status}</td>
+                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.customer.customer_id}</td>
                             <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.customer.first_name}&nbsp;&nbsp;&nbsp;{booking.customer.last_name}</td>
                             <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.customer.phone}</td>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.customer.email}</td>
+                            
                         </tr>
                     ))}
                 </tbody>

@@ -20,7 +20,6 @@ class ProductListFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id'=> $this->faker->unique()->numerify(str_repeat('#', 6)), // รหัสประเภทสินค้า
             'product_name' => $this->faker->word(), // ชื่อสินค้า
             'description' => $this->faker->sentence(), // คำอธิบายสินค้า
             'stock' => $this->faker->numberBetween(1, 100), // จำนวนสินค้าในสต็อก
