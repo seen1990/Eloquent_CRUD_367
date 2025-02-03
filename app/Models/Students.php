@@ -11,7 +11,7 @@ class Students extends Model
     public $timestamps = false;
 
     protected $fillable = ['first_name', 'last_name', 'phone', 'email','major', 'teacher_id'];
-    protected $primaryKey = 'student_id';
+    protected $primaryKey = 'student_id'; //กำหนดให้คอลัมน์นี่เป็น PK
 
     public function courses()
     {
