@@ -11,7 +11,7 @@ export default function Index({ students }) {
         <div style={{ maxWidth: "1500px", margin: "0 auto", padding: "20px", border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
             <h1 style={{ fontSize: '2.3em', fontWeight: 'bold', textAlign: 'center', margin: '40px 50px', color: '#007bff' }}>Students</h1>
 
-            <table style={{width: "100%",borderCollapse: "collapse"}}>
+            <table style={{width: "100%",borderCollapse: "collapse",marginBottom: '50px'}}>
                 <thead style={{ backgroundColor: "#f8f9fa" }}>
                 <tr>
                     {headers.map((header, index) => (
