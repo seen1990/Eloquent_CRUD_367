@@ -21,10 +21,12 @@ class ProductListFactory extends Factory
     {
         return [
             'product_name' => $this->faker->word(), // ชื่อสินค้า
-            'description' => $this->faker->sentence(), // คำอธิบายสินค้า
-            'stock' => $this->faker->numberBetween(1, 100), // จำนวนสินค้าในสต็อก
             'price' => $this->faker->randomFloat(2, 1, 999),//ราคาสินค้า
-            'category_id' => ProductCategory::inRandomOrder()->first()->category_id ?? 1, // อ้างอิงประเภทสินค้าแบบสุ่ม
+            'stock' => $this->faker->numberBetween(1, 100), // จำนวนสินค้าในสต็อก
+            'category' => $this->faker->word,
+            
+            
+            
         ];
     }
 }

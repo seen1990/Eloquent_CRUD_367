@@ -23,7 +23,7 @@ class BookingFactory extends Factory
         return [
             'customer_id' => Customer::inRandomOrder()->first()->customer_id, // ใช้ customer_id แบบสุ่ม
             'room_id' => Room::inRandomOrder()->first()->room_id, // ใช้ room_id แบบสุ่ม
-            'booked_at'=> $this->faker->dateTimeBetween('-1 week', '+1 week'), 
+            'booked_at'=> $this->faker->dateTimeThisMonth(),
             'check_in' => $this->faker->dateTimeThisMonth(), // วันที่เช็คอิน
             'check_out' => $this->faker->dateTimeBetween('now', '+1 week'), // วันที่เช็คเอาท์
             'status' => $this->faker->randomElement(['pending', 'confirmed', 'cancelled']), // สถานะการจอง

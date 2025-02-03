@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\BookingsController;
+use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index');
+Route::get('/students', [StudentsController::class, 'index'])->name('student.index');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

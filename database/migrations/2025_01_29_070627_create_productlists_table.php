@@ -15,11 +15,10 @@ return new class extends Migration
         Schema::create('product_lists', function (Blueprint $table) {
             $table->bigIncrements('product_id')->primary();
             $table->string('product_name', 30 );
-            $table->text('description', 100);
-            $table->string('stock');
             $table->decimal('price', 5, 2);
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('category_id')->on('product_categories')->onDelete('cascade'); 
+            $table->string('stock');
+            $table->string('category');
+            
         });
         // ตั้งค่า AUTO_INCREMENT เริ่มต้นที่ 10001
         DB::statement('ALTER TABLE product_lists AUTO_INCREMENT = 10001');

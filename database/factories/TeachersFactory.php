@@ -20,12 +20,11 @@ class TeachersFactory extends Factory
     public function definition(): array
     {
         return [
-            'teacher_id'=> $this->faker->numerify(str_repeat('#', 7)),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'gender' => $this->faker->randomElement(['Male', 'Female', 'Other']),
+            'phone' => $this->faker->numerify('##########'),
             'email' => $this->faker->unique()->safeEmail(),
-            'faculty_id' => \App\Models\Faculties::inRandomOrder()->first()->faculty_id,
+            'department' => $this->faker->word,
         ];
     }
 }

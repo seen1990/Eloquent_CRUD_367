@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -12,14 +13,15 @@ return new class extends Migration
     public function up()
     {
     Schema::create('teachers', function (Blueprint $table) {
-        $table->id('teacher_id'); // Primary Key
-        $table->string('first_name'); // ชื่อ
-        $table->string('last_name'); // นามสกุล
-        $table->string('gender'); // เพศ
+        $table->bigIncrements('teacher_id')->primary();
+        $table->string('first_name', 20); // ชื่อ
+        $table->string('last_name', 20); // นามสกุล
+        $table->string('phone', 10); 
         $table->string('email')->unique(); // อีเมล์
-        $table->unsignedBigInteger('faculty_id');
-        $table->foreign('faculty_id')->references('faculty_id')->on('faculties')->onDelete('cascade'); // คณะ (Foreign Key)
+        $table->string('department', 100);
     });
+    // ตั้งค่า AUTO_INCREMENT 
+    DB::statement('ALTER TABLE teachers AUTO_INCREMENT = 106001');
     }
 
 

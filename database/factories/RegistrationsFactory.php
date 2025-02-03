@@ -21,9 +21,9 @@ class RegistrationsFactory extends Factory
     public function definition(): array
     {
         return [
-            'registration_id'=> $this->faker->unique()->numerify(str_repeat('#', 13)),
             'student_id' => \App\Models\Students::inRandomOrder()->first()->student_id, // เลือก student_id แบบสุ่มจากฐานข้อมูล
             'course_id' => \App\Models\Courses::inRandomOrder()->first()->course_id,   // เลือก course_id แบบสุ่มจากฐานข้อมูล
+            'register_date'=> $this->faker->dateTimeBetween('-2 week', '+2 week'),
         ];
     }
 }

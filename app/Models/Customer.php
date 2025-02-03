@@ -9,7 +9,7 @@ class Customer extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['first_name', 'last_name','gender', 'email', 'phone', 'address'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address'];
     protected $primaryKey = 'customer_id';
 
     public function orders()

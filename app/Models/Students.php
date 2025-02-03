@@ -10,16 +10,12 @@ class Students extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['first_name', 'last_name', 'gender', 'email', 'birth_date', 'faculty_id'];
-
-    public function faculty()
-    {
-        return $this->belongsTo(Faculties::class, 'faculty_id', 'faculty_id'); // นศ. 1 คน สังกัด 1 คณะ
-    }
+    protected $fillable = ['first_name', 'last_name', 'phone', 'email','major', 'teacher_id'];
+    protected $primaryKey = 'student_id';
 
     public function courses()
     {
-        return $this->belongsToMany(Courses::class, 'registrations'); //นศ. 1 คน ลงทะเบียนได้หลายวิชา
+        return $this->belongsToMany(Courses::class, 'registrations', 'student_id', 'course_id'); //นศ. 1 คน ลงทะเบียนได้หลายวิชา
     }
 
     public function teacher()

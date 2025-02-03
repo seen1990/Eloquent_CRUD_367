@@ -10,17 +10,14 @@ class Teachers extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['first_name', 'last_name', 'gender','email'];
+    protected $fillable = ['first_name', 'last_name', 'phone', 'email','department'];
+    protected $primaryKey = 'teacher_id';
 
     public function courses()
     {
         return $this->hasMany(Courses::class, 'teacher_id', 'teacher_id'); // 1 อาจารย์ สอนหลายวิชา
     }
 
-    public function faculty()
-    {
-    return $this->belongsTo(Faculties::class, 'faculty_id', 'faculty_id');//1 อาจารย์สังกัด 1 คณะ
-    }
 
     public function students()
     {

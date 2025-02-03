@@ -18,7 +18,12 @@ class StudentsController extends Controller
    
     public function index()
     {
+        $students = Students::with('courses','teacher')->paginate(10); // ดึงข้อมูลวิชาพร้อมข้อมูลอาจารย์ที่สอนวิชานั้น
 
+        // ส่งข้อมูลไปยัง React ผ่าน Inertia
+        return Inertia::render('Student/Index', [
+            'students' => $students, // ส่งข้อมูลนักเรียน
+        ]);
     }
 
     /**

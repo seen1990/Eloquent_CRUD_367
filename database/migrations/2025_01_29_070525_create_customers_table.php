@@ -16,7 +16,6 @@ return new class extends Migration
             $table->bigIncrements('customer_id')->primary();
             $table->string('first_name', 20); // ชื่อ
             $table->string('last_name', 20); // นามสกุล
-            $table->enum('gender', ['Male', 'Female', 'Other']);
             $table->string('email')->unique();
             $table->string('phone', 10); 
             $table->string('address');

@@ -11,10 +11,11 @@ class Courses extends Model
     public $timestamps = false;
     
     protected $fillable = ['course_name', 'course_description', 'teacher_id'];
+    protected $primaryKey = 'course_id';
 
     public function students()
     {
-        return $this->belongsToMany(Students::class, 'registrations');//1 วิชา มี นศ. เรียนหลายคน
+        return $this->belongsToMany(Students::class, 'registrations', 'course_id', 'student_id');//1 วิชา มี นศ. เรียนหลายคน
     }
 
     public function teacher()

@@ -9,8 +9,8 @@ class Booking extends Model
 {   
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['booked_at','check_in', 'check_out', 'room_id', 'customer_id'];
-    protected $primaryKey = 'customer_id';
+    protected $fillable = ['booked_at','check_in', 'check_out', 'room_id', 'customer_id','status'];
+    protected $primaryKey = 'booking_id';
 
     public function customer()
     {

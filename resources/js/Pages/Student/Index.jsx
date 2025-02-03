@@ -1,16 +1,15 @@
 import React from "react";
-import dayjs from "dayjs";
 import { Inertia } from "@inertiajs/inertia";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function Index({ bookings }) {
-    const headers = ["Booking ID", 'Room', 'Booking Date', 'Booking Status', 'Customer ID', "Customer Name",  "Customer Phone"]; 
+export default function Index({ students }) {
+    const headers = ['Student ID', 'Firstname', 'Lastname','Major', 'Phone', 'Email']; 
 
     return (
         
         <AuthenticatedLayout>
         <div style={{ maxWidth: "1500px", margin: "0 auto", padding: "20px", border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
-            <h1 style={{ fontSize: '2.3em', fontWeight: 'bold', textAlign: 'center', margin: '40px 50px', color: '#007bff' }}>Bookings</h1>
+            <h1 style={{ fontSize: '2.3em', fontWeight: 'bold', textAlign: 'center', margin: '40px 50px', color: '#007bff' }}>Students</h1>
 
             <table style={{width: "100%",borderCollapse: "collapse"}}>
                 <thead style={{ backgroundColor: "#f8f9fa" }}>
@@ -28,16 +27,14 @@ export default function Index({ bookings }) {
                 </tr>
                 </thead>
                 <tbody>
-                    {bookings.data.map((booking, index) => (
-                        <tr key={booking.booking_id} style={{ backgroundColor: index % 2 === 0 ? "#f8f9fa" : "#fff" }}>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.booking_id}</td>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.room.room_number}</td>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{dayjs(booking.booked_at).format("YYYY-MM-DD")}</td>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.status}</td>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.customer.customer_id}</td>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.customer.first_name}&nbsp;&nbsp;&nbsp;{booking.customer.last_name}</td>
-                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{booking.customer.phone}</td>
-                            
+                    {students.data.map((student, index) => (
+                        <tr key={student.student_id} style={{ backgroundColor: index % 2 === 0 ? "#f8f9fa" : "#fff" }}>
+                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{student.student_id}</td>
+                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{student.first_name}</td>
+                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{student.last_name}</td>
+                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{student.major}</td>
+                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{student.phone}</td>
+                            <td style={{ padding: '10px 20px', borderBottom: "1px solid #ddd", textAlign: 'center' }}>{student.email}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -46,25 +43,25 @@ export default function Index({ bookings }) {
             {/* Pagination Controls */}
             <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
                 <button
-                    onClick={() => bookings.prev_page_url && Inertia.visit(bookings.prev_page_url)}
-                    disabled={!bookings.prev_page_url}
+                    onClick={() => students.prev_page_url && Inertia.visit(students.prev_page_url)}
+                    disabled={!students.prev_page_url}
                     style={{
                         margin: "0 5px",
                         padding: "8px 12px",
-                        backgroundColor: bookings.prev_page_url ? "#007bff" : "#fff",
-                        color: bookings.prev_page_url ? "#fff" : "#007bff",
+                        backgroundColor: students.prev_page_url ? "#007bff" : "#fff",
+                        color: students.prev_page_url ? "#fff" : "#007bff",
                         border: "1px solid #ddd",
                         borderRadius: "5px",
-                        cursor: bookings.prev_page_url ? "pointer" : "not-allowed",
-                        opacity: bookings.prev_page_url ? 1 : 0.5,
+                        cursor: students.prev_page_url ? "pointer" : "not-allowed",
+                        opacity: students.prev_page_url ? 1 : 0.5,
                     }}
                 >
                     &laquo; Previous
                 </button>
 
                 {(() => {
-                    const currentPage = bookings.current_page;
-                    const lastPage = bookings.last_page;
+                    const currentPage = students.current_page;
+                    const lastPage = students.last_page;
                     const pageNumbers = new Set();
 
                     for (let i = 1; i <= 3; i++) {
@@ -88,7 +85,7 @@ export default function Index({ bookings }) {
                     return Array.from(pageNumbers).map((page, index) => (
                         <button
                             key={index}
-                            onClick={() => typeof page === 'number' && Inertia.visit(`${bookings.path}?page=${page}`)}
+                            onClick={() => typeof page === 'number' && Inertia.visit(`${students.path}?page=${page}`)}
                             style={{
                                 margin: "0 5px",
                                 padding: "8px 12px",
@@ -105,17 +102,17 @@ export default function Index({ bookings }) {
                 })()}
 
                 <button
-                    onClick={() => bookings.next_page_url && Inertia.visit(bookings.next_page_url)}
-                    disabled={!bookings.next_page_url}
+                    onClick={() => students.next_page_url && Inertia.visit(students.next_page_url)}
+                    disabled={!students.next_page_url}
                     style={{
                         margin: "0 5px",
                         padding: "8px 12px",
-                        backgroundColor: bookings.next_page_url ? "#007bff" : "#fff",
-                        color: bookings.next_page_url ? "#fff" : "#007bff",
+                        backgroundColor: students.next_page_url ? "#007bff" : "#fff",
+                        color: students.next_page_url ? "#fff" : "#007bff",
                         border: "1px solid #ddd",
                         borderRadius: "5px",
-                        cursor: bookings.next_page_url ? "pointer" : "not-allowed",
-                        opacity: bookings.next_page_url ? 1 : 0.5,
+                        cursor: students.next_page_url ? "pointer" : "not-allowed",
+                        opacity: students.next_page_url ? 1 : 0.5,
                     }}
                 >
                     Next &raquo;

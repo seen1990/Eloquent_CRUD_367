@@ -10,6 +10,7 @@ class Registrations extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = ['student_id', 'course_id'];
+    protected $primaryKey = 'registration_id';
 
     public function student()
     {

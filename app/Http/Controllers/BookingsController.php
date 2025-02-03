@@ -16,12 +16,7 @@ class BookingsController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with('customer', 'room')->paginate(10); // ดึงข้อมูลวิชาพร้อมข้อมูลอาจารย์ที่สอนวิชานั้น
-
-        // ส่งข้อมูลไปยัง React ผ่าน Inertia
-        return Inertia::render('Booking', [
-            'bookings' => $bookings, // ส่งข้อมูลวิชา
-        ]);
+        
     }
 
     /**
