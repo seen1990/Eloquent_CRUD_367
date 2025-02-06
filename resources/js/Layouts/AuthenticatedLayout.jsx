@@ -37,6 +37,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Students
                                 </NavLink>
+                                <NavLink
+                                    href={route('student.create')}
+                                    active={route().current('student.create')}
+                                >
+                                    CreateStudent
+                                </NavLink>
+                                
                             </div>
                         </div>
 
