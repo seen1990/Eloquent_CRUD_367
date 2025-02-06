@@ -21,14 +21,48 @@ class StudentsController extends Controller
      * Display a listing of the resource.
      */
    
-    public function index()
-    {   Log::info("Index function called");
-        $students = Students::with('teacher')->paginate(10); // ดึงข้อมูลวิชาพร้อมข้อมูลอาจารย์ที่สอนวิชานั้น
+    public function index(Request $request)
+    {   
+        // รับค่าที่ส่งมาจาก React
+        \Log::info("Index function called");
 
-        // ส่งข้อมูลไปยัง React ผ่าน Inertia
-        return Inertia::render('Student/Index', [
-            'students' => $students, // ส่งข้อมูลนักเรียน
-        ]);
+        $search = $request->input('search'); // รับค่าค้นหาจาก request
+        $query = Students::with('teacher'); // สร้าง Query Builder
+
+        if (!empty($search)) {
+            $searchTerms = explode(' ', $search); // แยกคำค้นหาเป็นอาร์เรย์
+            
+            if (count($searchTerms) > 1) {
+                // ถ้ามีมากกว่า 1 คำ เช่น "John Doe"
+                $firstName = $searchTerms[0];
+                $lastName = $searchTerms[1];
+        
+                $query->where(function ($q) use ($firstName, $lastName) {
+                    $q->where('first_name', 'like', "%$firstName%")
+                      ->where('last_name', 'like', "%$lastName%");
+                })->orWhereHas('teacher', function ($q) use ($firstName, $lastName) {
+                    $q->where('first_name', 'like', "%$firstName%")
+                      ->where('last_name', 'like', "%$lastName%");
+                });
+        
+            } else {
+                // ถ้ามีแค่คำเดียว เช่น "John" หรือ "Doe"
+                $query->where('student_id', 'like', "%$search%")
+                      ->orWhere('first_name', 'like', "%$search%")
+                      ->orWhere('last_name', 'like', "%$search%")
+                      ->orWhereHas('teacher', function ($q) use ($search) {
+                          $q->where('first_name', 'like', "%$search%")
+                            ->orWhere('last_name', 'like', "%$search%");
+                      });
+                }
+            }
+        
+                $students = $query->paginate(10);
+        
+            return Inertia::render('Student/Index', [
+                'students' => $students,
+                'query' => $search,
+            ]);
     }
 
     /**

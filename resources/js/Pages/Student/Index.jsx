@@ -4,10 +4,10 @@ import {usePage } from "@inertiajs/react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import './Index.css';
 
-export default function Index({ students }) {
+export default function Index({ students, query }) {
         const headers = ['Student ID', 'Name', 'Major', 'Phone Number', 'Email', 'Teacher Advisor','More Action']; 
         const [openMenu, setOpenMenu] = useState(null);
-       
+        const [search, setSearch] = useState(query || '');//กำหนดค่าเริ่มต้นของ search 1)ถ้ามีค่า query ก็จะใช้ค่านั้นเป็นค่าเริ่มต้น  หรือ 2)ถ้าไม่มีให้ก็เป็นค่าว่าง 
         const { flash } = usePage().props;
         const [showFlash, setShowFlash] = useState(true); // State สำหรับการแสดง flash message
         const handleDelete = (student_id) => {
@@ -22,10 +22,16 @@ export default function Index({ students }) {
             }, 4000); // 4000ms = 4 seconds
         }
         }, [flash]);
+
+        const handleSearch = (e) => {  //เป็นฟังก์ชันที่ทำงานเมื่อผู้ใช้กดปุ่มค้นหา
+            e.preventDefault(); //หยุดไม่ให้โหลดหน้าเว็บใหม่เมื่อกดปุ่ม submit
+            Inertia.get('/students', { search }); //ส่งค่าที่ค้นหา(search) ไปที่เส้นทาง /employee 
+        };
                         
     return (
         
         <AuthenticatedLayout>
+        <div> 
         {showFlash && flash?.success && (
             <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative w-full fixed top-0 left-0 z-10" style={{ marginBottom: 0 }}>
                 {flash.success}
@@ -36,19 +42,48 @@ export default function Index({ students }) {
                 {flash.error}
             </div>
         )}
-        <div style={{ maxWidth: "1550px", margin: "0 auto", border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
-            <h1 style={{ fontSize: '2.3em', fontWeight: 'bold', textAlign: 'center', margin: '40px 50px', color: '#007bff' }}>Students</h1>
-            <div style={{ height: "645px", overflowY: "auto", marginBottom: '50px' }}>
-            <table style={{width: "100%",borderCollapse: "collapse",marginBottom: '50px'}}>
-                <thead style={{ backgroundColor: "#f8f9fa" }}>
-                <tr>
-                    {headers.map((header, index) => (
-                        <th key={index} style={{padding: '10px 20px',textAlign: 'center',borderBottom: '1px solid #ddd',fontWeight: "bold"}}>
-                            {header}
-                        </th>
-                    ))}
-                </tr>
-                </thead>
+            
+            <>
+                {students.data.length === 0 ? ( //แต่ถ้าไม่มีข้อมูลพนักงานให้แสดงข้อความว่า Employee Not Found
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '85vh', position: 'relative' }}>
+                        <p style={{ fontSize: '2.6em', fontWeight: 'bold', textAlign: 'center', color: 'gray' }}>Student Not Found</p>
+                        <button style={{ textDecoration: 'underline' }}
+                            onMouseOver={(e) => { e.target.style.color = '#007bff'; }}
+                            onMouseOut={(e) => { e.target.style.color = 'initial'; }}
+                            onClick={() => window.location.href = '/students'}>
+                            Back To Home Page
+                        </button>
+                    </div>
+                    ) : ( //แต่ถ้ามีข้อมูลพนักงานให้แสดงตารางข้อมูลพนักงาน
+                        <div style={{ maxWidth: "1550px", margin: "0 auto", border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+                        <h1 style={{ fontSize: '2.3em', fontWeight: 'bold', textAlign: 'center', margin: '40px 50px', color: '#007bff' }}>Students</h1>
+                        <>    
+                            
+                            {/*ฟอร์มค้นหาพนักงาน*/}
+                            <form onSubmit={handleSearch} style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '50px' }}>
+                                <input
+                                    type="text"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)} //เมื่อมีการเปลี่ยนค่าในช่องค้นหาให้เรียกใช้ฟังก์ชัน setSearch เพื่ออัปเดตค่าค้นหา
+                                    placeholder="Search employees..."
+                                    style={{ marginRight: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ddd', width: '250px' }}
+                                />
+                                <button type="submit" style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer' }}>
+                                    Search
+                                </button>
+                            </form>
+                        </>
+                        <div style={{ height: "645px", overflowY: "auto", marginBottom: '50px' }}>
+                        <table style={{width: "100%",borderCollapse: "collapse",marginBottom: '50px'}}>
+                        <thead style={{ backgroundColor: "#f8f9fa" }}>
+                        <tr>
+                            {headers.map((header, index) => (
+                                <th key={index} style={{padding: '10px 20px',textAlign: 'center',borderBottom: '1px solid #ddd',fontWeight: "bold"}}>
+                                    {header}
+                                </th>
+                            ))}
+                        </tr>
+                        </thead>
                 <tbody>
                     {students.data.map((student, index) => (
                         <tr key={student.student_id} style={{ backgroundColor: index % 2 === 0 ? "#f8f9fa" : "#fff" }}>
@@ -98,7 +133,7 @@ export default function Index({ students }) {
             </table>
 
             {/* Pagination Controls */}
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+             <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
                 <button
                     onClick={() => students.prev_page_url && Inertia.visit(students.prev_page_url)}
                     disabled={!students.prev_page_url}
@@ -181,9 +216,24 @@ export default function Index({ students }) {
                 >
                     Next &raquo;
                 </button>
-            
             </div>
+            {/*เมื่อมีการค้นหาแล้วให้แสดงปุ่ม Back To Home Page เพื่อกลับไปหน้าหลัก*/}
+            {search.length > 0 && (
+                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                <button
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+                    onMouseOver={(e) => { e.target.style.color = '#007bff'; }}
+                    onMouseOut={(e) => { e.target.style.color = 'initial'; }}
+                    onClick={() => window.location.href = '/students'}>
+                    Back To Home Page
+                </button>
+            </div>
+            )}
             </div>   
+        </div>
+                    )}
+                </>
+            
         </div>
         </AuthenticatedLayout>
         
